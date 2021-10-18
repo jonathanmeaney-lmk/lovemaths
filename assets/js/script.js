@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let button of buttons) {
         button.addEventListener("click", function(){
             if (this.getAttribute("data-type") === "submit"){
-                alert("You clicked submit");
+                checkAnswer()
             } else {
                 let gameType = this.getAttribute("data-type");
                 runGame(gameType);
             }
-        })
+        });
     }
 
     runGame("addition");
@@ -35,10 +35,35 @@ function runGame(gameType) {
 }
 
 function checkAnswer() {
+    
+    let userAnswer = parseInt(document.getElementById('answer-box').value);
+    let calculatedAnswer = calculateCorrectAnswer();
+    let isCorrect = userAnswer === calculatedAnswer[0];
+
+    if (isCorrect) {
+        alert(`Well done! That's correct!`);
+    } else {
+        alert(`Awww... you answered ${userAnswer}. The correct answer was ${calculatedAnswer[0]}`);
+    }
+
+    runGame(calculatedAnswer[1])
 
 }
 
 function calculateCorrectAnswer() {
+
+    let operand1 = parseInt(document.getElementById('operand1').innerText);
+    let operand2 = parseInt(document.getElementById('operand2').innerText);
+    let operator = document.getElementById('operator').innerText;
+
+    console.log(operand1)
+
+    if (operator === "+") {
+        return [operand1 + operand2, "addition"];
+    } else {
+        alert(`Unimplemented operator ${operator}`);
+        throw `Unimplemented operator ${operator}. Aborting!`;
+    }
 
 }
 
@@ -54,6 +79,8 @@ function displayAdditionQuestion(operand1, operand2) {
     document.getElementById('operand1').textContent = operand1;
     document.getElementById('operand2').textContent = operand2;
     document.getElementById('operator').textContent = "+";
+
+    console.log("hello")
 
 }
 
